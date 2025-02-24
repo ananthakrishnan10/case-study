@@ -1,7 +1,7 @@
 function App() {
 
   return (
-    <><p>case study</p></>
+    <><h1 className="text-3xl font-bold underline">case study</h1></>
   )
 }
 
