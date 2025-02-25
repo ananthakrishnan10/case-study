@@ -1,8 +1,11 @@
+import { Route, Routes } from 'react-router-dom';
+import { Articles } from './Pages/Articles';
+
 function App() {
   return (
-    <>
-      <h1 className="text-3xl font-bold underline">case study</h1>
-    </>
+    <Routes>
+      <Route path="/" element={<Articles />} />
+    </Routes>
   );
 }
 
