@@ -1,12 +1,15 @@
-import { Route, Routes } from 'react-router-dom';
-import { Articles } from './Pages/Articles';
+import { Routes, Route } from 'react-router-dom';
+import { ArticlesPage } from './Pages';
+import { Layout } from './components';
 
-function App() {
+const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<Articles />} />
+      <Route path="/" element={<Layout />}>
+        <Route index element={<ArticlesPage />} />
+      </Route>
     </Routes>
   );
-}
+};
 
-export default App;
+export default AppRoutes;
