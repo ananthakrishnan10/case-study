@@ -10,41 +10,41 @@ export const ArticlesPage = () => {
   const [page, setPage] = useState(1);
   const pageSize = 10;
 
-  const {
-    data: newsApiData,
-    error: newsApiError,
-    isLoading: newsApiLoading,
-  } = useGetNewsApiQuery({ ...filters, page, pageSize });
+  const isSourceFilterApplied = Boolean(filters.sources?.trim());
 
-  const {
-    data: guardianData,
-    error: guardianError,
-    isLoading: guardianLoading,
-  } = useGetGuardianNewsQuery({ ...filters, page, pageSize });
+  const { data: newsApiData, isLoading: newsApiLoading } = useGetNewsApiQuery({ ...filters, page, pageSize });
+
+  const { data: guardianData, isLoading: guardianLoading } = useGetGuardianNewsQuery(
+    { ...filters, page, pageSize },
+    { skip: isSourceFilterApplied },
+  );
 
   const handleFilterSubmit = (values: typeof filters) => {
     setFilters(values);
     setPage(1);
   };
 
-  const isLoading = newsApiLoading || guardianLoading;
-  const error = newsApiError || guardianError;
+  const isLoading = newsApiLoading || (!isSourceFilterApplied && guardianLoading);
+  const noDataFound =
+    (guardianData?.response?.results?.length || 0) === 0 && (newsApiData?.articles?.length || 0) === 0;
 
   const articles = [
     ...(newsApiData?.articles || []),
-    ...(guardianData?.response?.results || []).map((article) => ({
-      title: article.webTitle,
-      url: article.webUrl,
-      source: { name: 'The Guardian' },
-      publishedAt: article.webPublicationDate,
-      description: '',
-      urlToImage: '',
-    })),
+    ...(!isSourceFilterApplied
+      ? (guardianData?.response?.results || []).map((article) => ({
+          title: article.webTitle,
+          url: article.webUrl,
+          source: { name: 'The Guardian' },
+          publishedAt: article.webPublicationDate,
+          description: '',
+          urlToImage: '',
+        }))
+      : []),
   ];
 
   const totalPages = Math.min(
     Math.ceil((newsApiData?.totalResults || 1) / pageSize),
-    guardianData?.response?.pages || 1,
+    !isSourceFilterApplied ? guardianData?.response?.pages || 1 : Infinity,
   );
 
   return (
@@ -55,8 +55,8 @@ export const ArticlesPage = () => {
         <div className="flex justify-center mt-6">
           <CircularProgress className="text-blue-500" />
         </div>
-      ) : error ? (
-        <p className="text-red-500 text-center mt-4">Error loading articles</p>
+      ) : noDataFound ? (
+        <p className="text-blue-500 text-center mt-4">No data found</p>
       ) : (
         <Grid container spacing={3} className="my-6">
           {articles.map((article, index) => (

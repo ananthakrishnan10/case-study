@@ -14,3 +14,13 @@ export interface NewsResponse {
   totalResults: number;
   articles: Article[];
 }
+
+export interface NewsSource {
+  id: string;
+  name: string;
+}
+
+export interface NewsSourcesResponse {
+  status: string;
+  sources: NewsSource[];
+}
