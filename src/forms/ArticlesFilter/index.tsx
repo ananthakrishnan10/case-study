@@ -7,7 +7,7 @@ import { ArticleFilterProps } from '../types/filter';
 export const defaultFilters = {
   keyword: 'tesla',
   sources: '',
-  from: '2025-01-25',
+  from: '2025-02-15',
   to: new Date().toISOString().split('T')[0],
 };
 
