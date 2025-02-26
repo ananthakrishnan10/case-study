@@ -1,6 +1,6 @@
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Grid, TextField, Button, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
+import { Grid2 as Grid, TextField, Button, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import { SearchFormValues, searchSchema } from './filterSchema';
 import { ArticleFilterProps } from '../types/filter';
 import { useGetNewsSourcesQuery } from '../../Pages/Articles/apis';
@@ -32,19 +32,26 @@ export const ArticleFilter = ({ onFilterSubmit }: ArticleFilterProps) => {
 
   return (
     <form onSubmit={handleSubmit(onFilterSubmit)} className="bg-white p-4 rounded-xl shadow-md">
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} md={3}>
+      <Grid container spacing={2} alignItems="center">
+        <Grid size={{ xs: 12, sm: 4, md: 2.5 }}>
           <TextField {...register('keyword')} label="Search" fullWidth size="small" />
         </Grid>
 
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 4, md: 2.5 }}>
           <FormControl fullWidth size="small">
             <InputLabel>Sources</InputLabel>
             <Controller
               name="sources"
               control={control}
               render={({ field }) => (
-                <Select {...field} label="Sources" disabled={isLoading}>
+                <Select
+                  {...field}
+                  label="Sources"
+                  disabled={isLoading}
+                  MenuProps={{
+                    PaperProps: { style: { maxHeight: 400, overflowY: 'auto' } },
+                  }}
+                >
                   <MenuItem value="">All Sources</MenuItem>
                   {sourcesData?.sources.map((source) => (
                     <MenuItem key={source.id} value={source.id}>
@@ -57,14 +64,20 @@ export const ArticleFilter = ({ onFilterSubmit }: ArticleFilterProps) => {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 4, md: 2.5 }}>
           <FormControl fullWidth size="small">
             <InputLabel>Category</InputLabel>
             <Controller
               name="category"
               control={control}
               render={({ field }) => (
-                <Select {...field} label="Category">
+                <Select
+                  {...field}
+                  label="Category"
+                  MenuProps={{
+                    PaperProps: { style: { maxHeight: 400, overflowY: 'auto' } },
+                  }}
+                >
                   <MenuItem value="">All Categories</MenuItem>
                   {categoryOptions.map((category) => (
                     <MenuItem key={category.value} value={category.value}>
@@ -77,16 +90,15 @@ export const ArticleFilter = ({ onFilterSubmit }: ArticleFilterProps) => {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 6, sm: 4, md: 2 }}>
           <TextField {...register('from')} type="date" fullWidth size="small" />
         </Grid>
 
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 6, sm: 4, md: 2 }}>
           <TextField {...register('to')} type="date" fullWidth size="small" />
         </Grid>
-
-        <Grid item xs={12} sm={6} md={3}>
-          <Button type="submit" variant="contained" color="primary" fullWidth>
+        <Grid size={{ xs: 12, sm: 4, md: 2 }} className="flex sm:justify-end">
+          <Button type="submit" variant="contained" color="primary" fullWidth className="sm:w-auto">
             Search
           </Button>
         </Grid>
