@@ -10,10 +10,10 @@ export const newsApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: newsApiBaseUrl }),
   endpoints: (builder) => ({
     getNewsApi: builder.query<NewsResponse, SearchFormValues>({
-      query: ({ keyword, sources, category, from, to, page = 1, pageSize = 10 }) => {
+      query: ({ keyword, sources, category, author, from, to, page = 1, pageSize = 10 }) => {
         const params = new URLSearchParams({
           apiKey: newsApiKey,
-          q: keyword ? `${keyword} ${category || ''}`.trim() : category || '',
+          q: [keyword, category, author].filter(Boolean).join(' '),
           sources: sources || '',
           from: from || '',
           to: to || '',

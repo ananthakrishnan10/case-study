@@ -8,6 +8,7 @@ export const searchSchema = z.object({
   to: z.string().optional(),
   page: z.number().optional(),
   pageSize: z.number().optional(),
+  author: z.string().optional(),
 });
 
 export type SearchFormValues = z.infer<typeof searchSchema>;

@@ -10,10 +10,10 @@ export const guardianApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: guardianBaseUrl }),
   endpoints: (builder) => ({
     getGuardianNews: builder.query<GuardianResponse, SearchFormValues>({
-      query: ({ keyword, category, from, to, page = 1, pageSize = 10 }) => {
+      query: ({ keyword, category, author, from, to, page = 1, pageSize = 10 }) => {
         const params = new URLSearchParams({
           'api-key': guardianApiKey,
-          q: keyword ? `${keyword} ${category || ''}`.trim() : category || '',
+          q: [keyword, category, author].filter(Boolean).join(' '),
           'from-date': from || '',
           'to-date': to || '',
           page: page.toString(),

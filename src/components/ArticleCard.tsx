@@ -23,6 +23,11 @@ export const ArticleCard: FC<ArticleCardProps> = ({ article }) => {
         <Typography variant="caption" color="text.secondary" className="text-xs text-gray-500">
           {article.source.name} - {new Date(article.publishedAt).toLocaleDateString()}
         </Typography>
+        {article.author && (
+          <Typography variant="caption" color="text.secondary" className="text-xs text-gray-500 italic">
+            By {article.author}
+          </Typography>
+        )}
       </CardContent>
       <CardActions className="justify-end p-4">
         <Button

@@ -10,6 +10,7 @@ export const defaultFilters = {
   sources: '',
   from: '2025-02-15',
   to: new Date().toISOString().split('T')[0],
+  author: '',
 };
 
 const categoryOptions = [
@@ -33,11 +34,15 @@ export const ArticleFilter = ({ onFilterSubmit }: ArticleFilterProps) => {
   return (
     <form onSubmit={handleSubmit(onFilterSubmit)} className="bg-white p-4 rounded-xl shadow-md">
       <Grid container spacing={2} alignItems="center">
-        <Grid size={{ xs: 12, sm: 4, md: 2.5 }}>
+        <Grid size={{ xs: 12, sm: 4, md: 2 }}>
           <TextField {...register('keyword')} label="Search" fullWidth size="small" />
         </Grid>
 
-        <Grid size={{ xs: 12, sm: 4, md: 2.5 }}>
+        <Grid size={{ xs: 12, sm: 4, md: 2 }}>
+          <TextField {...register('author')} label="Author" fullWidth size="small" />
+        </Grid>
+
+        <Grid size={{ xs: 12, sm: 4, md: 2 }}>
           <FormControl fullWidth size="small">
             <InputLabel>Sources</InputLabel>
             <Controller
@@ -64,7 +69,7 @@ export const ArticleFilter = ({ onFilterSubmit }: ArticleFilterProps) => {
           </FormControl>
         </Grid>
 
-        <Grid size={{ xs: 12, sm: 4, md: 2.5 }}>
+        <Grid size={{ xs: 12, sm: 4, md: 2 }}>
           <FormControl fullWidth size="small">
             <InputLabel>Category</InputLabel>
             <Controller
